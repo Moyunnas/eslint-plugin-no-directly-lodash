@@ -12,6 +12,7 @@ ruleTester.run('no-directly-lodash', rule, {
     valid: [
         'import a from \"lodash/a\";',
         'import b from \"lodash/b\";',
+
     ],
 
     invalid: [
@@ -33,6 +34,16 @@ ruleTester.run('no-directly-lodash', rule, {
             code: "import { noop, debounce } from \"lodash\";",
             errors: [{ messageId: 'directlyImportLodash'}],
             output: "import noop from \"lodash/noop\";\nimport debounce from \"lodash/debounce\";"
-        }
+        },
+        {
+            code: "import { noop as _noop } from \"lodash-es\";",
+            errors: [{ messageId: 'directlyImportLodash'}],
+            output: "import noop from \"lodash-es/noop\";"
+        },
+        {
+            code: "import noop from \"lodash-es\";",
+            errors: [{ messageId: 'directlyImportLodash'}],
+            output: "import noop from \"lodash-es/noop\";"
+        },
     ]
 })
